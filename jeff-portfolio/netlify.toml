@@ -1,6 +1,6 @@
 [build]
   command = "npm install && ng build --configuration=production"
-  publish = "dist/jeff-portfolio"
+  publish = "jeff-portfolio/dist/jeff-portfolio"
 
 [[redirects]]
   from = "/*"
