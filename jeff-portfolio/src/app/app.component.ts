@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'jeff-portfolio';
+  isEntryPage = false;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.isEntryPage = this.router.url === '/entry';
+    });
+  }
 }
