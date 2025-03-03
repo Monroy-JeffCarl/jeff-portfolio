@@ -11,39 +11,50 @@ export class HomeComponent implements OnInit {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
-    const text = this.el.nativeElement.querySelector(".name");
-    if (!text) return;
+    const nameText = this.el.nativeElement.querySelector(".name");
+    const profileContainer = this.el.nativeElement.querySelector(".profile-container");
+
+    if (!nameText || !profileContainer) return;
+
+    const hoverElements = [nameText, profileContainer];
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!this.isHovering) return;
-
-      const { width, height, left, top } = text.getBoundingClientRect();
-      const x = ((e.clientX - left) / width) * 100;
-      const y = ((e.clientY - top) / height) * 100;
-
-      text.style.backgroundImage = `radial-gradient(circle at ${x}% ${y}%, 
-          red, orange, yellow, green, cyan, blue, violet)`;
+    
+      // Get cursor position relative to name
+      const nameRect = nameText.getBoundingClientRect();
+      const nameX = ((e.clientX - nameRect.left) / nameRect.width) * 100;
+      const nameY = ((e.clientY - nameRect.top) / nameRect.height) * 100;
+      
+      // Apply gradient
+      const gradientName = `radial-gradient(circle at ${nameX}% ${nameY}%, red, orange, yellow, green, cyan, blue, violet)`;
+      nameText.style.backgroundImage = gradientName;
     };
 
-    this.renderer.listen(text, 'mouseenter', () => {
+    const applyGradient = () => {
       this.isHovering = true;
-      text.style.transition = 'background-image 0.3s ease-out, color 0.3s ease-in-out';
-      text.style.color = 'transparent';
-      text.style.backgroundClip = 'text';
-      text.style.webkitBackgroundClip = 'text';
-      text.style.backgroundImage = `radial-gradient(circle at 50% 50%, 
-          red, orange, yellow, green, cyan, blue, violet)`;
-
+    
+      nameText.style.transition = 'background-image 0.3s ease-in-out, color 0.3s ease-in-out';
+      nameText.style.color = 'transparent';
+      nameText.style.backgroundClip = 'text';
+      nameText.style.webkitBackgroundClip = 'text';
+    
       document.addEventListener("mousemove", handleMouseMove);
-    });
-
-    this.renderer.listen(text, 'mouseleave', () => {
+    };
+    
+    const removeGradient = () => {
       this.isHovering = false;
-
-      text.style.transition = 'background-image 0.3s ease-out, color 0.3s ease-in-out';
-      text.style.color = '#474849';
+    
+      nameText.style.transition = 'background-image 0.3s ease-out, color 0.3s ease-in-out';
+      nameText.style.color = '#474849';
 
       document.removeEventListener("mousemove", handleMouseMove);
+    };
+
+    // Attach hover events to both name and profile container
+    hoverElements.forEach((element) => {
+      this.renderer.listen(element, 'mouseenter', applyGradient);
+      this.renderer.listen(element, 'mouseleave', removeGradient);
     });
   }
 }

@@ -39,8 +39,8 @@ body {
   font-weight: bold;
   margin: 0;
   text-align: center;
-  color:#474849;
-  transition: background-image 0.3s ease-in-out, color 0.3s ease-in-out;
+  color: #474849;
+  transition: background-image 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
 .subtitle {
@@ -52,4 +52,34 @@ body {
 .name,
 .subtitle{
   letter-spacing: -0.9px;
+}
+
+.profile-container {
+  padding-top: 10px;;
+  position: relative;
+  display: inline-block;
+}
+
+.rectangle {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px; 
+  height: 80px; 
+  border-radius: 15px; 
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #474849;
+  transition: background-image 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.icon-profile {
+  width: 100px; 
+  height: 100px;
+  display: block;
+  margin: 0 auto;
+  position: relative; /* Added this */
+  z-index: 1; 
 }
